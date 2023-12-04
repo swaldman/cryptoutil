@@ -13,6 +13,9 @@ object Byteable:
   val ofSeqByte : Byteable[Seq[Byte]] = new Byteable[Seq[Byte]]:
     extension ( bytes : Seq[Byte] ) def toByteArray : Array[Byte] = bytes.toArray
     def fromByteArray( bytes : Array[Byte] ) : Seq[Byte] = immutable.ArraySeq.unsafeWrapArray(bytes)
+  val ofArraySeqByte : Byteable[immutable.ArraySeq[Byte]] = new Byteable[immutable.ArraySeq[Byte]]:
+    extension ( bytes : immutable.ArraySeq[Byte] ) def toByteArray : Array[Byte] = bytes.toArray
+    def fromByteArray( bytes : Array[Byte] ) : immutable.ArraySeq[Byte] = immutable.ArraySeq.unsafeWrapArray(bytes)
 
 trait Byteable[T]:
   extension (t : T) def toByteArray : Array[Byte]
@@ -21,14 +24,19 @@ trait Byteable[T]:
   extension( t : T )( using Byteable[T] )
     def toSeq                : Seq[Byte]  = immutable.ArraySeq.unsafeWrapArray[Byte]( t.toByteArray )
     def base64               : String     = B64Encoder.encodeToString( t.toByteArray )
-    def hex                  : String     = ByteUtils.toLowercaseHexAscii( t.toByteArray ); // should we switch to the DatatypeConverter implementation of hex encoding/decoding?
-    def hex0x                : String     = "0x" + hex
+    def hex                  : String     = _hex( t.toByteArray )
+    def hex0x                : String     = _hex0x( t.toByteArray )
     def toBigInteger         : BigInteger = new BigInteger( t.toByteArray )
     def toUnsignedBigInteger : BigInteger = new BigInteger( 1, t.toByteArray )
     def toBigInt             : BigInt     = BigInt( toBigInteger )
     def toUnsignedBigInt     : BigInt     = BigInt( toUnsignedBigInteger )
     def ^( other : T ) : T = fromByteArray(xor(t.toByteArray,arr(other)))
 
+private def _hex( ba : Array[Byte] ) : String =
+  ByteUtils.toLowercaseHexAscii( ba ); // should we switch to the DatatypeConverter implementation of hex encoding/decoding?
+
+private def _hex0x( ba : Array[Byte] ) : String =
+  "0x" + _hex(ba)
 
 private def arr[T]( t : T )(using Byteable[T]) = summon[Byteable[T]].toByteArray(t)
 

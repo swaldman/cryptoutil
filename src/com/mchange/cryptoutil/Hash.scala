@@ -12,7 +12,10 @@ object Hash:
 
   extension ( h : Hash )
     def toByteArray : Array[Byte] = h.toArray
-    def toSeq       : Seq[Byte] = h
+    def toSeq       : Seq[Byte]   = h
+    def hex         : String      = _hex( h.toArray )
+    def hex0x       : String      = _hex0x( h.toArray )
+    
 
 opaque type Hash = immutable.Seq[Byte]
 

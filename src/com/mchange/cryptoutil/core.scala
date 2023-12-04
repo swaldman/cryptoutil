@@ -15,8 +15,9 @@ private val B64Encoder = java.util.Base64.getEncoder()
 // javadocs: "Instances of Base64.Decoder class are safe for use by multiple concurrent threads."
 private val B64Decoder = java.util.Base64.getDecoder()
 
-given Byteable[Array[Byte]] = Byteable.ofByteArray
-given Byteable[Seq[Byte]] = Byteable.ofSeqByte
+given Byteable[Array[Byte]]              = Byteable.ofByteArray
+given Byteable[Seq[Byte]]                = Byteable.ofSeqByte
+given Byteable[immutable.ArraySeq[Byte]] = Byteable.ofArraySeqByte
 
 extension ( byte : Byte ) def hex : String = ByteUtils.toLowercaseHexAscii( byte ) 
 
@@ -42,6 +43,7 @@ extension ( bi : BigInt )
     if ( bi.isValidLong ) bi.toLong else throw new BadConversionException( s"BigInt ${bi} cannot be converted to Long without truncation" )
   def toValidInt =
     if ( bi.isValidInt ) bi.toInt else throw new BadConversionException( s"BigInt ${bi} cannot be converted to Int without truncation" )
+
 extension ( jbi : BigInteger )
   def toBigInt : BigInt = BigInt(jbi)
 
