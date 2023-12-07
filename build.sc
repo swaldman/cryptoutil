@@ -18,9 +18,9 @@ object cryptoutil extends RootModule with ScalaModule with PublishModule {
      ivy"com.mchange:mchange-commons-java:0.2.20",
     )
   }
-  
+
   override def artifactName = "cryptoutil"
-  override def publishVersion = T{"0.0.1"}
+  override def publishVersion = T{"0.0.2-SNAPSHOT"}
   override def pomSettings    = T{
     PomSettings(
       description = "Utilities useful for crypto-related and binary-heavy work.",
