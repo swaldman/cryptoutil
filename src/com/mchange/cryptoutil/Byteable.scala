@@ -8,21 +8,21 @@ import com.mchange.lang.ByteUtils
 
 object Byteable:
   val ofByteArray : Byteable[Array[Byte]] = new Byteable[Array[Byte]]:
-    extension (bytes : Array[Byte]) def toByteArray : Array[Byte] = bytes
-    def fromByteArray( bytes : Array[Byte] ) : Array[Byte] = bytes
+    extension (bytes : Array[Byte]) def toByteArray : Array[Byte] = bytes.clone()
+    def fromByteArray( bytes : Array[Byte] ) : Array[Byte] = bytes.clone()
   val ofSeqByte : Byteable[Seq[Byte]] = new Byteable[Seq[Byte]]:
     extension ( bytes : Seq[Byte] ) def toByteArray : Array[Byte] = bytes.toArray
-    def fromByteArray( bytes : Array[Byte] ) : Seq[Byte] = immutable.ArraySeq.unsafeWrapArray(bytes)
+    def fromByteArray( bytes : Array[Byte] ) : Seq[Byte] = immutable.ArraySeq.unsafeWrapArray(bytes.clone())
   val ofArraySeqByte : Byteable[immutable.ArraySeq[Byte]] = new Byteable[immutable.ArraySeq[Byte]]:
     extension ( bytes : immutable.ArraySeq[Byte] ) def toByteArray : Array[Byte] = bytes.toArray
-    def fromByteArray( bytes : Array[Byte] ) : immutable.ArraySeq[Byte] = immutable.ArraySeq.unsafeWrapArray(bytes)
+    def fromByteArray( bytes : Array[Byte] ) : immutable.ArraySeq[Byte] = immutable.ArraySeq.unsafeWrapArray(bytes.clone())
 
 trait Byteable[T]:
   extension (t : T) def toByteArray : Array[Byte]
   def fromByteArray( bytes : Array[Byte] ) : T
 
   extension( t : T )( using Byteable[T] )
-    def toSeq                : Seq[Byte]  = immutable.ArraySeq.unsafeWrapArray[Byte]( t.toByteArray )
+    def toSeq                : Seq[Byte]  = immutable.ArraySeq.unsafeWrapArray[Byte]( t.toByteArray ) // Seq[Byte] has a built-in toSeq, so there's no useless call
     def base64               : String     = B64Encoder.encodeToString( t.toByteArray )
     def hex                  : String     = _hex( t.toByteArray )
     def hex0x                : String     = _hex0x( t.toByteArray )
