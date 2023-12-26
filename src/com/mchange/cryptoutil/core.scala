@@ -49,6 +49,7 @@ extension ( jbi : BigInteger )
 
 extension ( i : Int )
   def toByteArrayBigEndian : Array[Byte] = IntegerUtils.byteArrayFromInt( i )
+  def toByteSeqBigEndian : immutable.ArraySeq[Byte] = immutable.ArraySeq.unsafeWrapArray( i.toByteArrayBigEndian )
   def fillBigEndian( bytes : Array[Byte], offset : Int = 0 ) : Unit = IntegerUtils.intIntoByteArray( i, offset, bytes )
 
 def asFixedLengthUnsignedByteArray( bi : BigInt, desiredLength : Int, allowCoerceNegativeValues : Boolean = false ) : Array[Byte] =
