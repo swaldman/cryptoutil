@@ -7,13 +7,13 @@ import java.math.BigInteger
 import com.mchange.lang.ByteUtils
 
 object Byteable:
-  val ofByteArray : Byteable[Array[Byte]] = new Byteable[Array[Byte]]:
+  given ofByteArray : Byteable[Array[Byte]] with
     extension (bytes : Array[Byte]) def toByteArray : Array[Byte] = bytes.clone()
     def fromByteArray( bytes : Array[Byte] ) : Array[Byte] = bytes.clone()
-  val ofSeqByte : Byteable[Seq[Byte]] = new Byteable[Seq[Byte]]:
+  given ofSeqByte : Byteable[Seq[Byte]] with
     extension ( bytes : Seq[Byte] ) def toByteArray : Array[Byte] = bytes.toArray
     def fromByteArray( bytes : Array[Byte] ) : Seq[Byte] = immutable.ArraySeq.unsafeWrapArray(bytes.clone())
-  val ofArraySeqByte : Byteable[immutable.ArraySeq[Byte]] = new Byteable[immutable.ArraySeq[Byte]]:
+  given ofArraySeqByte : Byteable[immutable.ArraySeq[Byte]] with
     extension ( bytes : immutable.ArraySeq[Byte] ) def toByteArray : Array[Byte] = bytes.toArray
     def fromByteArray( bytes : Array[Byte] ) : immutable.ArraySeq[Byte] = immutable.ArraySeq.unsafeWrapArray(bytes.clone())
 
