@@ -1,12 +1,12 @@
+package build
+
 import mill._
 import mill.scalalib._
 import mill.scalalib.publish._
 
-object cryptoutil extends RootModule with ScalaModule with PublishModule {
+object `package` extends RootModule with ScalaModule with PublishModule {
 
-  val JakartaMailVersion = "2.0.1"
-
-  override def scalaVersion = "3.3.1"
+  override def scalaVersion = "3.3.6"
 
 //  def scalacOptions = T {
 //    super.scalacOptions() ++ Seq("-explain")
@@ -15,12 +15,12 @@ object cryptoutil extends RootModule with ScalaModule with PublishModule {
   override def ivyDeps = T {
     super.ivyDeps() ++
     Agg(
-     ivy"com.mchange:mchange-commons-java:0.2.20",
+     ivy"com.mchange:mchange-commons-java:0.3.2",
     )
   }
 
   override def artifactName = "cryptoutil"
-  override def publishVersion = T{"0.0.2"}
+  override def publishVersion = T{"0.0.3-SNAPSHOT"}
   override def pomSettings    = T{
     PomSettings(
       description = "Utilities useful for crypto-related and binary-heavy work.",
