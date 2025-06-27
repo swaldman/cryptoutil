@@ -113,3 +113,14 @@ private def negOnePad( bytes : Array[Byte], bytesLength : Int, desiredLength : I
   Array.copy( bytes, 0, out, desiredLength - bytesLength, bytesLength )
   out
 
+private[cryptoutil] def _hex( ba : Array[Byte] ) : String =
+  ByteUtils.toLowercaseHexAscii( ba ); // should we switch to the DatatypeConverter implementation of hex encoding/decoding?
+
+private[cryptoutil] def _hex0x( ba : Array[Byte] ) : String =
+  "0x" + _hex(ba)
+
+private[cryptoutil] def arr[T]( t : T )(using Byteable[T]) = summon[Byteable[T]].toByteArray(t)
+
+private[cryptoutil] def xor( _bytes : Array[Byte], other : Array[Byte] ) : Array[Byte] =
+  require( _bytes.length == other.length, s"We can only xor sequences or arrays of the same length. [_bytes.length: ${_bytes.length}, other.length: ${other.length}]" )
+  (0 until _bytes.length).map( i => (_bytes(i) ^ other(i)).toByte ).toArray
