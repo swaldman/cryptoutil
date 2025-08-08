@@ -24,6 +24,7 @@ trait Byteable[T]:
   extension( t : T )( using Byteable[T] )
     def toSeq                : Seq[Byte]  = immutable.ArraySeq.unsafeWrapArray[Byte]( t.toByteArray ) // Seq[Byte] has a built-in toSeq, so there's no useless call
     def base64               : String     = B64Encoder.encodeToString( t.toByteArray )
+    def base64url            : String     = B64UrlEncoder.encodeToString( t.toByteArray )
     def hex                  : String     = _hex( t.toByteArray )
     def hex0x                : String     = _hex0x( t.toByteArray )
     def toBigInteger         : BigInteger = new BigInteger( t.toByteArray )

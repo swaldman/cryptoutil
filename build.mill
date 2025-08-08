@@ -1,27 +1,23 @@
+//| mill-version: 1.0.3
+//| mill-jvm-version: 17
+//+---------------------------------------------------------------
 package build
 
-import mill._
-import mill.scalalib._
-import mill.scalalib.publish._
+import mill.*, scalalib.*, publish.*
 
-object `package` extends RootModule with ScalaModule with PublishModule {
+object `package` extends ScalaModule with PublishModule:
 
   override def scalaVersion = "3.3.6"
 
-//  def scalacOptions = T {
-//    super.scalacOptions() ++ Seq("-explain")
-//  }
+//  def scalacOptions = Task( super.scalacOptions() ++ Seq("-explain") )
 
-  override def ivyDeps = T {
-    super.ivyDeps() ++
-    Agg(
-     ivy"com.mchange:mchange-commons-java:0.3.2",
-    )
-  }
+  override def mvnDeps = Task( super.mvnDeps() ++ Seq( mvn"com.mchange:mchange-commons-java:0.3.2" ) )
 
   override def artifactName = "cryptoutil"
-  override def publishVersion = T{"0.0.3-SNAPSHOT"}
-  override def pomSettings    = T{
+
+  override def publishVersion = Task("0.0.3-SNAPSHOT")
+
+  override def pomSettings = Task:
     PomSettings(
       description = "Utilities useful for crypto-related and binary-heavy work.",
       organization = "com.mchange",
@@ -29,10 +25,9 @@ object `package` extends RootModule with ScalaModule with PublishModule {
       licenses = Seq(License.`Apache-2.0`),
       versionControl = VersionControl.github("swaldman", "cryptoutil"),
       developers = Seq(
-	Developer("swaldman", "Steve Waldman", "https://github.com/swaldman")
+        Developer("swaldman", "Steve Waldman", "https://github.com/swaldman")
       )
     )
-  }
-}
+
 
 

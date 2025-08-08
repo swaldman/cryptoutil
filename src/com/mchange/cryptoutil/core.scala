@@ -11,9 +11,11 @@ import com.mchange.lang.{ByteUtils,IntegerUtils,LongUtils}
 
 // javadocs: "Instances of Base64.Encoder class are safe for use by multiple concurrent threads."
 private val B64Encoder = java.util.Base64.getEncoder()
+private val B64UrlEncoder = java.util.Base64.getUrlEncoder()
 
 // javadocs: "Instances of Base64.Decoder class are safe for use by multiple concurrent threads."
 private val B64Decoder = java.util.Base64.getDecoder()
+private val B64UrlDecoder = java.util.Base64.getUrlDecoder()
 
 given Byteable[Array[Byte]]              = Byteable.ofByteArray
 given Byteable[Seq[Byte]]                = Byteable.ofSeqByte
@@ -39,13 +41,19 @@ extension ( bi : BigInt )
    */
   def unsignedBytes( len : Int, allowCoerceNegativeValues : Boolean = false ) : Array[Byte] =
     asFixedLengthUnsignedByteArray( bi, len, allowCoerceNegativeValues )
-  def toValidLong =
+  def toValidLong : Long =
     if ( bi.isValidLong ) bi.toLong else throw new BadConversionException( s"BigInt ${bi} cannot be converted to Long without truncation" )
-  def toValidInt =
+  def toValidInt : Int =
     if ( bi.isValidInt ) bi.toInt else throw new BadConversionException( s"BigInt ${bi} cannot be converted to Int without truncation" )
 
 extension ( jbi : BigInteger )
   def toBigInt : BigInt = BigInt(jbi)
+  
+  // try this again when we're ready to update to Scala 3.7.x+
+  // def unsignedBytes( len : Int, allowCoerceNegativeValues : Boolean = false ) : Array[Byte] = toBigInt.unsignedBytes(len, allowCoerceNegativeValues)
+
+  def toValidLong : Long = toBigInt.toValidLong
+  def toValidInt : Int = toBigInt.toValidInt
 
 extension ( i : Int )
   def toByteArrayBigEndian : Array[Byte] = IntegerUtils.byteArrayFromInt( i )
