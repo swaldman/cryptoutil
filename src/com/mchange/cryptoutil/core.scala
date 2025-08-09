@@ -29,6 +29,7 @@ extension ( string : String )
     ByteUtils.fromHexAscii( hexstring )
   def decodeHexToSeq : immutable.ArraySeq[Byte] = immutable.ArraySeq.unsafeWrapArray( decodeHexToArray )
   def decodeBase64 : Array[Byte] = B64Decoder.decode( string )
+  def decodeBase64url : Array[Byte] = B64UrlDecoder.decode( string )
   def isMixedCase : Boolean = string.exists( Character.isUpperCase ) && string.exists( Character.isLowerCase )
 
 extension ( bi : BigInt )
