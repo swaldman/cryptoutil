@@ -28,6 +28,7 @@ extension ( string : String )
     val hexstring = if string.startsWith( "0x" ) then string.substring(2) else string
     ByteUtils.fromHexAscii( hexstring )
   def decodeHexToSeq : immutable.ArraySeq[Byte] = immutable.ArraySeq.unsafeWrapArray( decodeHexToArray )
+  def decodeHex : Array[Byte] = decodeHexToArray
   def decodeBase64 : Array[Byte] = B64Decoder.decode( string )
   def decodeBase64url : Array[Byte] = B64UrlDecoder.decode( string )
   def isMixedCase : Boolean = string.exists( Character.isUpperCase ) && string.exists( Character.isLowerCase )
