@@ -21,6 +21,9 @@ given Byteable[Array[Byte]]              = Byteable.ofByteArray
 given Byteable[Seq[Byte]]                = Byteable.ofSeqByte
 given Byteable[immutable.ArraySeq[Byte]] = Byteable.ofArraySeqByte
 
+extension[T] ( arraySeq : immutable.ArraySeq[T] )
+  def unsafeUnwrap : Array[T] = arraySeq.unsafeArray.asInstanceOf[Array[T]]
+
 extension ( byte : Byte ) def hex : String = ByteUtils.toLowercaseHexAscii( byte ) 
 
 extension ( string : String )
