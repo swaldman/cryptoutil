@@ -11,7 +11,7 @@ object `package` extends ScalaModule with PublishModule:
 
 //  def scalacOptions = Task( super.scalacOptions() ++ Seq("-explain") )
 
-  override def mvnDeps = Task( super.mvnDeps() ++ Seq( mvn"com.mchange:mchange-commons-java:0.3.2" ) )
+  override def mvnDeps = Task( super.mvnDeps() ++ Seq( mvn"com.mchange:mchange-commons-java:0.4.0" ) )
 
   override def artifactName = "cryptoutil"
 
