@@ -15,7 +15,7 @@ object `package` extends ScalaModule with PublishModule:
 
   override def artifactName = "cryptoutil"
 
-  override def publishVersion = Task("0.0.3-SNAPSHOT")
+  override def publishVersion = Task("0.0.3")
 
   override def pomSettings = Task:
     PomSettings(
