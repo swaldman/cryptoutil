@@ -7,15 +7,15 @@ import mill.*, scalalib.*, publish.*
 
 object `package` extends ScalaModule with PublishModule:
 
-  override def scalaVersion = "3.3.6"
+  override def scalaVersion = "3.3.7"
 
 //  def scalacOptions = Task( super.scalacOptions() ++ Seq("-explain") )
 
-  override def mvnDeps = Task( super.mvnDeps() ++ Seq( mvn"com.mchange:mchange-commons-java:0.4.0" ) )
+  override def mvnDeps = Task( super.mvnDeps() ++ Seq( mvn"com.mchange:mchange-commons-java:0.5.0" ) )
 
   override def artifactName = "cryptoutil"
 
-  override def publishVersion = Task("0.0.3")
+  override def publishVersion = Task("0.0.4")
 
   override def pomSettings = Task:
     PomSettings(
